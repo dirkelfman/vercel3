@@ -2,6 +2,11 @@ import { FetcherError } from '@commerce/utils/errors'
 import type { GraphQLFetcher } from '@commerce/api'
 import type { KiboCommerceConfig } from '../index'
 import fetch from './fetch'
+import * as https from 'https';
+
+const agent = new https.Agent(  {  
+  rejectUnauthorized: false
+});
 
 const fetchGraphqlApi: (getConfig: () => KiboCommerceConfig) => GraphQLFetcher =
   (getConfig) =>
@@ -20,6 +25,7 @@ const fetchGraphqlApi: (getConfig: () => KiboCommerceConfig) => GraphQLFetcher =
         query,
         variables,
       }),
+      agent:agent
     })
 
     const json = await res.json()
